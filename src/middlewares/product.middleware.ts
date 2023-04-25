@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import validationSchema from './schema';
+import schema from './schema';
 
-async function validateProducts(req: Request, res: Response, next: NextFunction) {
-  const { error } = validationSchema.product.validate(req.body);
+async function validationProduct(req: Request, res: Response, next: NextFunction) {
+  const { error } = schema.productSchema.validate(req.body);
   if (error) {
     return res.status(error.message.includes('required') ? 400 : 422)
       .json({ message: error.message });
@@ -10,4 +10,4 @@ async function validateProducts(req: Request, res: Response, next: NextFunction)
   next();
 }
 
-export default validateProducts;
+export default validationProduct;

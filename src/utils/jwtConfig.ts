@@ -1,7 +1,7 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { User } from '../types';
+import { IUser } from '../Interfaces';
 
-function tokenGenerator(payload: User) {
+function tokenGenerator(payload: IUser) {
   const secret: string = process.env.JWT_SECRET || 'secret';
   const config: SignOptions = {
     expiresIn: '30d',

@@ -1,16 +1,18 @@
-import { User, Login } from '../types';
+import { IUser, ILogin } from '../Interfaces';
 import userModel from '../models/user.model';
-import JWT from '../utils/JWT';
-import validationSchema from '../middlewares/schema';
+import jwtConfig from '../utils/jwtConfig';
+import schema from '../middlewares/schema';
 
-async function createUser(user: User): Promise<string> {
+async function createUser(user: IUser): Promise<string> {
   const newUser = await userModel.createUser(user);
-  const token = JWT.tokenGenerator(newUser);
+  const token = jwtConfig.tokenGenerator(newUser);
   return token;
 }
 
-async function userLogin(user: Login): Promise<string | { message: string, status: number }> {
-  const { error } = validationSchema.login.validate(user);
+async function userLogin(user: ILogin): Promise<string | {
+  message: string, status: number
+}> {
+  const { error } = schema.loginSchema.validate(user);
   if (error) return { message: error.message, status: 400 };
 
   const data = await userModel.userLogin(user);
@@ -18,7 +20,7 @@ async function userLogin(user: Login): Promise<string | { message: string, statu
     return { message: 'Username or password invalid', status: 401 };
   }
 
-  const token = JWT.tokenGenerator({ id: data.id, username: data.username });
+  const token = jwtConfig.tokenGenerator({ id: data.id, username: data.username });
   return token;
 }
 
