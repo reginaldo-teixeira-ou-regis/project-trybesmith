@@ -8,7 +8,6 @@ async function findOrders(): Promise<Order[]> {
     INNER JOIN Trybesmith.products AS prdt ON ord.id = prdt.order_id
     GROUP BY ord.id`,
   );
-
   return orders as Order[];
 }
 
