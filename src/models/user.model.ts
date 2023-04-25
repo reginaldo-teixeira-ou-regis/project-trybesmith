@@ -1,12 +1,13 @@
 import { ResultSetHeader } from 'mysql2';
-import { User } from '../types/User';
+import { User, Login } from '../types';
 import connection from './connection';
-import { Login } from '../types/Login';
 
 async function createUser(user: User): Promise<User> {
   const { username, vocation, level, password } = user;
+  const query = `INSERT INTO Trybesmith.users (username, vocation, level, password)
+  VALUES(?, ?, ?, ?)`;
   const [result] = await connection.execute<ResultSetHeader>(
-    'INSERT INTO Trybesmith.users (username, vocation, level, password) VALUES (?, ?, ?, ?)',
+    query,
     [username, vocation, level, password],
   );
   const { insertId: id } = result;
@@ -15,16 +16,14 @@ async function createUser(user: User): Promise<User> {
   return newUser;
 }
 
-async function login(user: Login): Promise<User | undefined> {
-  const [data] = await connection.execute(
-    'SELECT * FROM Trybesmith.users WHERE username = ?',
-    [user.username],
-  );
+async function userLogin(user: Login): Promise<User | undefined> {
+  const query = 'SELECT * FROM Trybesmith.users WHERE username = ?';
+  const [data] = await connection.execute(query, [user.username]);
   const [userData] = data as User[];
   return userData as User | undefined;
 }
 
 export default {
   createUser,
-  login,
+  userLogin,
 };

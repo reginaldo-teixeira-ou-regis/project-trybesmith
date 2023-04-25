@@ -1,27 +1,24 @@
 import { ResultSetHeader } from 'mysql2';
-import { Product } from '../types/Product';
+import { Product } from '../types';
 import connection from './connection';
 
 async function createProduct(product: Product): Promise<Product> {
   const { name, amount } = product;
-  const [result] = await connection.execute<ResultSetHeader>(
-    'INSERT INTO Trybesmith.products (name, amount) VALUES (?, ?)',
-    [name, amount],
-  );
+  const query = 'INSERT INTO Trybesmith.products (name, amount) VALUES (?, ?)';
+  const [result] = await connection.execute<ResultSetHeader>(query, [name, amount]);
   const { insertId: id } = result;
 
   const newProduct: Product = { id, ...product };
   return newProduct;
 }
 
-async function findAll(): Promise<Product[]> {
-  const [products] = await connection.execute(
-    'SELECT * FROM Trybesmith.products',
-  );
+async function findAllProduct(): Promise<Product[]> {
+  const query = 'SELECT * FROM Trybesmith.products';
+  const [products] = await connection.execute(query);
   return products as Product[];
 }
 
 export default {
   createProduct,
-  findAll,
+  findAllProduct,
 };

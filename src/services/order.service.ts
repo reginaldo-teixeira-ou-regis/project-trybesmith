@@ -1,11 +1,11 @@
-import { Order } from '../types/Order';
+import { Order } from '../types';
 import orderModel from '../models/order.model';
 
-async function findOrders(): Promise<Order[]> {
-  const orders = await orderModel.findOrders();
+async function findAllOrders(): Promise<Order[]> {
+  const orders = await orderModel.findAllOrders();
   return orders;
 }
 
 export default {
-  findOrders,
+  findAllOrders,
 };

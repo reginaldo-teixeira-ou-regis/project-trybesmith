@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import validationSchema from './validationSchema';
+import validationSchema from './schema';
 
 async function validationUsers(req: Request, res: Response, next: NextFunction) {
   const { error } = validationSchema.user.validate(req.body);

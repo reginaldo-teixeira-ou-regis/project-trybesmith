@@ -6,12 +6,12 @@ async function createProduct(req: Request, res: Response) {
   return res.status(201).json(newProduct);
 }
 
-async function findAll(req: Request, res: Response) {
-  const products = await productService.findAll();
+async function findAllProduct(req: Request, res: Response) {
+  const products = await productService.findAllProduct();
   return res.status(200).json(products);
 }
 
 export default {
   createProduct,
-  findAll,
+  findAllProduct,
 };

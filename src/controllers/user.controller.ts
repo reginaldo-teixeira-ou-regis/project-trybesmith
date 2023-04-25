@@ -6,8 +6,8 @@ async function createUser(req: Request, res: Response) {
   res.status(201).json({ token: newUser });
 }
 
-async function login(req: Request, res: Response) {
-  const token = await userService.login(req.body);
+async function userLogin(req: Request, res: Response) {
+  const token = await userService.userLogin(req.body);
   if (typeof token !== 'string') {
     return res.status(token.status).json({ message: token.message });
   }
@@ -16,5 +16,5 @@ async function login(req: Request, res: Response) {
 
 export default {
   createUser,
-  login,
+  userLogin,
 };

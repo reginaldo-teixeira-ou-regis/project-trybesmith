@@ -1,5 +1,5 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { User } from '../types/User';
+import { User } from '../types';
 
 function tokenGenerator(payload: User) {
   const secret: string = process.env.JWT_SECRET || 'secret';
