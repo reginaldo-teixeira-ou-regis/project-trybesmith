@@ -21,6 +21,14 @@ async function createProduct(product: Product): Promise<Product> {
   return newProduct;
 }
 
+async function findAll(): Promise<Product[]> {
+  const [products] = await connection.execute(
+    'SELECT * FROM Trybesmith.products',
+  );
+  return products as Product[];
+}
+
 export default {
   createProduct,
+  findAll,
 };
